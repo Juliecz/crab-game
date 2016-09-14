@@ -12,7 +12,10 @@ PIXI.loader
         "img/crab.png",
         "img/coin.png",
         "img/sea.png",
-        "img/sand.png"
+        "img/sand.png",
+        "img/water.png",
+        "img/water.jpg",
+        "img/water2.png"
     ])
     .load(game);
 
@@ -25,24 +28,36 @@ var renderer = new autoDetectRenderer(700, 500),
     sand = new Sprite.fromImage("img/sand.png"),
     score = 0,
     scoreText = new PIXI.Text('Score: ' + score),
-    displacementFilter = new PIXI.filters.DisplacementFilter(sand, 10);
+    water = new Sprite.fromImage("img/water2.png");//new Sprite(resources["img/water.jpg"].texture),
+    displacementFilter = new PIXI.filters.DisplacementFilter(water);
 
 function game() {
     var canvas = document.getElementById('canvas');
     canvas.appendChild(renderer.view);
     stage.addChild(container);
+    container.filters = [displacementFilter];
+    console.log(displacementFilter);
+    //displacementFilter.resolution = 10;
+    stage.addChild(water);
 
     scoreText.position.x = 430;
     sand.position.y = 450;
+    //container.addChild(background, sand);
     container.addChild(background, sand);
-    stage.addChild(scoreText, crab);
     coinFunc().randomPosition();
+    //console.log(displacementFilter);
+    displacementFilter.maskMatrix[0] = 1.5;
+    stage.addChild(scoreText, crab);
     addEventListener('keydown', keyboard);
     render();
 }
-
+var animF = 1;
 function render() {
-    container.filter = [displacementFilter];
+    //container.filter = [displacementFilter];
+    //console.log(animF++);
+    //displacementFilter.offset += off  set;
+
+
     renderer.render(stage);
     requestAnimationFrame(render);
 }
